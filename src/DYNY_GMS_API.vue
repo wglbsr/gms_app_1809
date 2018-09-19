@@ -4,8 +4,8 @@
 
 <script>
   /*****!!!!!!******打包需要改为false*********!!!!********/
-    // let dev_mode = false;
-  let dev_mode = true;
+    let dev_mode = false;
+  // let dev_mode = true;
   /*****!!!!!!******打包需要改为false*********!!!!********/
   const GMS_DOMAIN = dev_mode ? "http://localhost:10130/" : "http://www.dy-iot.net:10130/";
   const GMS = {

@@ -1,8 +1,12 @@
 <template>
-  <div>
-    <c-header></c-header>
-    <c-content></c-content>
-    <c-footer></c-footer>
+  <div style="height:100%;">
+    <view-box ref="viewBox">
+      <c-header></c-header>
+      <div>
+        <router-view></router-view>
+      </div>
+      <c-footer></c-footer>
+    </view-box>
   </div>
 </template>
 <script>
@@ -16,7 +20,15 @@
       CFooter,
       CHeader,
       CContent,
-    }
+    },
+    data() {
+      return {}
+    },
+    mounted: function () {
+      this.$router.push({path: '/Content'});
+    },
+    methods: {},
+
   }
 </script>
 

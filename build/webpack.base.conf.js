@@ -5,7 +5,7 @@ const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const vuxLoader = require('vux-loader')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -67,6 +67,9 @@ let webpackConfig = {
     ]
   }
 }
+// define the different HOST between development and production environment
+// let DEV_HOST = JSON.stringify('http://localhost:10130');
+// let PUB_HOST = JSON.stringify('http://www.dy-iot.net:10130');
 
 
 module.exports = vuxLoader.merge(webpackConfig, {
@@ -76,7 +79,7 @@ module.exports = vuxLoader.merge(webpackConfig, {
     {
       name: 'duplicate-style',
       options: {
-        cssProcessorOptions : {
+        cssProcessorOptions: {
           safe: true,
           zindex: false,
           autoprefixer: {

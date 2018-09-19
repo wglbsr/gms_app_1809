@@ -1,6 +1,6 @@
 <template>
   <div class="header-div">
-    <x-header :right-options="{showMore: true}" :left-options="{showBack: true}" @on-click-more="showMenus = true">
+    <x-header :right-options="{showMore: true}" :left-options="{showBack: true}" @on-click-more="showMenus = true" style="">
       <div class="overwrite-title-demo" slot="overwrite-title">
         <x-input title="" placeholder="搜索" class="search-input"></x-input>
       </div>
@@ -9,18 +9,11 @@
 </template>
 
 <script>
-  import {XHeader, XInput, XButton} from 'vux'
 
   export default {
     name: "Header",
-    components: {
-      XHeader,
-      XInput,
-      XButton
-    },
     data() {
-      return {
-      }
+      return {}
     }
   }
 </script>
@@ -34,7 +27,8 @@
   .overwrite-title-demo {
     height: 100%;
   }
-  .header-div{
-    top:0px;
+
+  .header-div {
+    top: 0px;
   }
 </style>
