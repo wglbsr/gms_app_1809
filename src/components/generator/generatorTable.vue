@@ -1,78 +1,68 @@
 <template>
-  <div class="generator-detail-div">
-    <divider>总数:{{statisticInfo.totalGeneratorsNum}}</divider>
-    <grid :cols="2" :show-lr-borders="false" class="statisticInfo-grid" :show-vertical-dividers="false">
-      <grid-item class="status-grid-item" :label="onlineLabel">
-        <div style="width:80px;height:80px;margin: auto;">
-          <x-circle :percent="statisticInfo.onlinePercent" :stroke-width="10">
-            <span>{{statisticInfo.onlineNum}}</span>
-          </x-circle>
+  <div>
+    <x-header :right-options="{showMore: true}" :left-options="{showBack: true}" @on-click-more="showMenus = true"
+              style="">
+      油机管理系统-油机列表
+    </x-header>
+
+    <div class="generator-table-div">
+
+      <divider>总数:{{statisticInfo.totalGeneratorsNum}}</divider>
+      <grid :cols="2" :show-lr-borders="false" class="statisticInfo-grid" :show-vertical-dividers="false">
+        <grid-item class="status-grid-item" :label="onlineLabel">
+          <div style="width:80px;height:80px;margin: auto;">
+            <x-circle :percent="statisticInfo.onlinePercent" :stroke-width="10">
+              <span>{{statisticInfo.onlineNum}}</span>
+            </x-circle>
+          </div>
+        </grid-item>
+        <!--      <grid-item class="status-grid-item" label="在线率">
+                <div style="width:80px;height:80px;margin: auto;">
+                  <x-circle :percent="statisticInfo.offlinePercent" :stroke-width="5">
+                    <span>{{statisticInfo.offlineNum}}({{statisticInfo.offlinePercent|keepHowManyNum(1)}}%)</span>
+                  </x-circle>
+                </div>
+              </grid-item>-->
+        <grid-item class="status-grid-item" :label="generatingLabel">
+          <div style="width:80px;height:80px;margin: auto;">
+            <x-circle :percent="statisticInfo.generatingPercent" :stroke-width="10">
+              <span>{{statisticInfo.generatingNum}}</span>
+            </x-circle>
+          </div>
+        </grid-item>
+        <!--      <grid-item class="status-grid-item" label="在线率">
+                <div style="width:80px;height:80px;margin: auto;">
+                  <x-circle :percent="statisticInfo.onlinePercent" :stroke-width="5">
+                    <span>{{statisticInfo.onlineNum}}({{statisticInfo.onlinePercent|keepHowManyNum(1)}}%)</span>
+                  </x-circle>
+                </div>
+              </grid-item>-->
+      </grid>
+      <group>
+        <div v-for="(item, index) in generatorData">
+          <cell @cell-value-color="green" @click.native="gotoGeneratorDetail(item.mach_no,item.mach_type)"
+                is-link="true"
+                :title="item.mach_name" :inline-desc="item.mach_no" class="group-data-cell">
+
+            <strong>{{item.st_state}}，{{item.state1}}</strong><br>
+
+            {{item.st_current|translateCurrent|keepHowManyNum(1)}}A，
+            {{item.al_voltage|keepHowManyNum(1)}}V
+          </cell>
         </div>
-      </grid-item>
-      <!--      <grid-item class="status-grid-item" label="在线率">
-              <div style="width:80px;height:80px;margin: auto;">
-                <x-circle :percent="statisticInfo.offlinePercent" :stroke-width="5">
-                  <span>{{statisticInfo.offlineNum}}({{statisticInfo.offlinePercent|keepHowManyNum(1)}}%)</span>
-                </x-circle>
-              </div>
-            </grid-item>-->
-      <grid-item class="status-grid-item" :label="generatingLabel">
-        <div style="width:80px;height:80px;margin: auto;">
-          <x-circle :percent="statisticInfo.generatingPercent" :stroke-width="10">
-            <span>{{statisticInfo.generatingNum}}</span>
-          </x-circle>
+      </group>
+      <scroller lock-x height="200px" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"
+                :scroll-bottom-offset="200">
+        <div>
+          <load-more :show-loading="onFetching"></load-more>
         </div>
-      </grid-item>
-      <!--      <grid-item class="status-grid-item" label="在线率">
-              <div style="width:80px;height:80px;margin: auto;">
-                <x-circle :percent="statisticInfo.onlinePercent" :stroke-width="5">
-                  <span>{{statisticInfo.onlineNum}}({{statisticInfo.onlinePercent|keepHowManyNum(1)}}%)</span>
-                </x-circle>
-              </div>
-            </grid-item>-->
-    </grid>
-    <x-table :cell-bordered="false" full-bordered style="background-color:#fff;">
-      <thead>
-      <tr class="table-tr-th">
-        <th>序号</th>
-        <th>油机名称</th>
-        <th>基站名称</th>
-        <th>联网状态</th>
-        <th>油机状态</th>
-        <th>电流</th>
-        <th>电压</th>
-      </tr>
-      </thead>
-      <tbody v-for="(item, index) in generatorData">
-      <tr @click="gotoGeneratorDetail(item.mach_no)">
-        <td>{{index+1}}</td>
-        <td>{{item.mach_name}}</td>
-        <td>{{item.s_station_name|showStationName}}</td>
-        <td>{{item.st_state}}</td>
-        <td>{{item.state1}}</td>
-        <td>{{item.st_current|translateCurrent|keepHowManyNum(1)}}A</td>
-        <td>{{item.al_voltage|keepHowManyNum(1)}}V</td>
-      </tr>
-      </tbody>
-    </x-table>
-    <scroller lock-x height="200px" @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"
-              :scroll-bottom-offst="200">
-      <div>
-        <load-more :show-loading="onFetching"></load-more>
-      </div>
-    </scroller>
+      </scroller>
+    </div>
   </div>
 </template>
 <script>
-  import CFooter from '../../components/coms/Footer.vue'
-  import CHeader from '../../components/coms/Header.vue'
-
   export default {
     name: "generatorTable",
-    components: {
-      CFooter,
-      CHeader,
-    },
     data() {
       return {
         showList1: true,
@@ -114,7 +104,7 @@
       },
     },
     methods: {
-      gotoGeneratorDetail: function (machNo) {
+      gotoGeneratorDetail: function (machNo, machType) {
         this.$router.push({path: '/generatorDetail', query: {machNo: machNo}});
       },
       onScrollBottom: function () {

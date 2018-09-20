@@ -6,8 +6,8 @@ import VueRouter from 'vue-router'
 import App from './App'
 import VueResource from 'vue-resource'
 import {
-  Actionsheet, XInput, XButton, Grid, GridItem, XTable, LoadMore, Icon, XCircle,
-  XImg, Alert, Toast, XDialog, ButtonTab, Tabbar, TabbarItem, Divider, Confirm,
+  Actionsheet, XInput, XButton, Grid, GridItem, XTable, LoadMore, Icon, XCircle, Group,
+  XImg, Alert, Toast, XDialog, ButtonTab, Tabbar, TabbarItem, Divider, Confirm, Cell,
   ButtonTabItem, XHeader, ViewBox, Loading, LoadingPlugin, ToastPlugin, Scroller
 } from 'vux'
 
@@ -35,6 +35,8 @@ Vue.component('divider', Divider);
 Vue.component('confirm', Confirm);
 Vue.component('icon', Icon);
 Vue.component('x-circle', XCircle);
+Vue.component('cell', Cell);
+Vue.component('group', Group);
 
 import Home from './components/Home'
 import API_DYNY from "./DYNY_GMS_API.vue"
@@ -46,18 +48,22 @@ const generatorTable = r => require.ensure([], () => r(require('./components/gen
 const Login = r => require.ensure([], () => r(require('./components/Login.vue')), 'generator/');
 const generatorDetail = r => require.ensure([], () => r(require('./components/generator/generatorDetail.vue')), 'generatorDetail');
 const Content = r => require.ensure([], () => r(require('./components/coms/Content.vue')), 'Content');
-
+const generateTable = r => require.ensure([], () => r(require('./components/generate/generateTable.vue')), 'generateTable');
+const alarmTable = r => require.ensure([], () => r(require('./components/alarm/alarmTable.vue')), 'alarmTable');
+const generatorLocations = r => require.ensure([], () => r(require('./components/location/generatorLocations.vue')), 'generatorLocations');
 
 /*****!!!!!!******打包需要改为 false*********!!!!********/
-// let dev_mode = false;
-let dev_mode = true;
+let dev_mode = false;
+// let dev_mode = true;
 /*****!!!!!!******打包需要改为 false*********!!!!********/
 
-// if (dev_mode) {
-Vue.use(VueRouter);
-Vue.use(VueResource);
+if (dev_mode) {
+  Vue.use(VueRouter);
+  Vue.use(VueResource);
+}
+
 Vue.use(LoadingPlugin);
-Vue.use(ToastPlugin)
+Vue.use(ToastPlugin);
 // }
 Vue.filter('keepHowManyNum', function (hours, keppNum) {
   if (isNaN(hours) || !hours) {
@@ -94,7 +100,20 @@ const routes = [
         path: '/Content',
         name: 'Content',
         component: Content
+      }, {
+        path: '/generateTable',
+        name: 'generateTable',
+        component: generateTable
+      }, {
+        path: '/alarmTable',
+        name: 'alarmTable',
+        component: alarmTable
+      }, {
+        path: '/generatorLocations',
+        name: 'generatorLocations',
+        component: generatorLocations
       },
+      //generatorLocations
     ],
   },
   {
@@ -108,6 +127,22 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+
+
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(m => m.meta.auth)) {
+//     if (sessionStorage.getItem("user") !== null) {
+//       next()
+//     } else {
+//       window.alert("请先登录!");
+//       next(vm => {
+//         vm.$router.push("/login");
+//       })
+//     }
+//   } else {
+//     next()
+//   }
+// });
 
 FastClick.attach(document.body)
 

@@ -1,7 +1,13 @@
-.iconfont{
+.iconfont {
   /*font-size: 20px;*/
 }
 
 .text-align-center {
   text-align: center;
+}
+
+.group-data-cell {
+  /*margin-top: 1px !important;*/
+  /*margin-bottom: 1px !important;*/
+  border-bottom: 1px solid gray;
 }

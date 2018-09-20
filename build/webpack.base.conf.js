@@ -14,6 +14,12 @@ let webpackConfig = {
   entry: {
     app: './src/main.js'
   },
+  externals:{
+    'vue': 'Vue',
+    'vue-router': 'VueRouter',
+    'vue-resource':'VueResource',
+    'AMap': 'AMap'
+  },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',

@@ -1,34 +1,41 @@
 <template>
-  <div class="content-div">
-    <grid :cols="3" :show-vertical-dividers="false">
-      <grid-item label="全站地图" class="grid-item">
-        <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png" @click="showDevelopingTip">
-      </grid-item>
-      <grid-item label="油机列表" :link="{ path: '/generatorTable'}" class="grid-item">
-        <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png">
-      </grid-item>
-      <grid-item label="基站列表" class="grid-item">
-        <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png" @click="showDevelopingTip">
-      </grid-item>
-      <grid-item label="联系人列表" class="grid-item">
-        <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png" @click="showDevelopingTip">
-      </grid-item>
-      <grid-item label="单位列表" class="grid-item">
-        <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png" @click="showDevelopingTip">
-      </grid-item>
-      <grid-item label="用户列表" class="grid-item">
-        <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png" @click="showDevelopingTip">
-      </grid-item>
-      <grid-item label="客户列表" class="grid-item">
-        <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png" @click="showDevelopingTip">
-      </grid-item>
-      <grid-item label="发电记录" class="grid-item">
-        <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png" @click="showDevelopingTip">
-      </grid-item>
-      <grid-item label="告警记录" class="grid-item">
-        <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png" @click="showDevelopingTip">
-      </grid-item>
-    </grid>
+  <div>
+    <x-header :right-options="{showMore: true}" :left-options="{showBack: false}" @on-click-more="showMenus = true"
+              style="">
+      油机管理系统
+    </x-header>
+
+    <div class="content-div">
+      <grid :cols="3" :show-vertical-dividers="false">
+        <grid-item label="全站地图" :link="{ path: '/generatorLocations'}" class="grid-item">
+          <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png">
+        </grid-item>
+        <grid-item label="油机列表" :link="{ path: '/generatorTable'}" class="grid-item">
+          <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png">
+        </grid-item>
+        <grid-item label="基站列表" class="grid-item">
+          <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png" @click="showDevelopingTip">
+        </grid-item>
+        <grid-item label="联系人列表" class="grid-item">
+          <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png" @click="showDevelopingTip">
+        </grid-item>
+        <grid-item label="单位列表" class="grid-item">
+          <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png" @click="showDevelopingTip">
+        </grid-item>
+        <grid-item label="用户列表" class="grid-item">
+          <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png" @click="showDevelopingTip">
+        </grid-item>
+        <grid-item label="客户列表" class="grid-item">
+          <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png" @click="showDevelopingTip">
+        </grid-item>
+        <grid-item label="发电记录" :link="{ path: '/generateTable'}" class="grid-item">
+          <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png">
+        </grid-item>
+        <grid-item label="告警记录" :link="{ path: '/alarmTable'}" class="grid-item">
+          <img slot="icon" class="grid-item-img" src="../../assets/img/dev.png">
+        </grid-item>
+      </grid>
+    </div>
   </div>
 </template>
 

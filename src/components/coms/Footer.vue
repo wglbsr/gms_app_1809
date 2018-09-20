@@ -1,17 +1,17 @@
 <template>
   <div class="foot-div">
     <tabbar class="footer-tabbar">
-      <tabbar-item :link="{path:'/Content'}">
+      <tabbar-item :link="{path:'/Content'}" selected>
         <img slot="icon" src="../../assets/img/dev.png">
         <span slot="label">主页</span>
       </tabbar-item>
       <tabbar-item show-dot>
         <img slot="icon" src="../../assets/img/dev.png">
-        <span slot="label">Message</span>
+        <span slot="label">产品</span>
       </tabbar-item>
-      <tabbar-item selected>
+      <tabbar-item>
         <img slot="icon" src="../../assets/img/dev.png">
-        <span slot="label">Explore</span>
+        <span slot="label">待定</span>
       </tabbar-item>
       <tabbar-item badge="2">
         <img slot="icon" src="../../assets/img/dev.png">
