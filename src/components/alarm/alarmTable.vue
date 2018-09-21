@@ -1,10 +1,5 @@
 <template>
   <div>
-    <x-header :right-options="{showMore: true}" :left-options="{showBack: true}" @on-click-more="showMenus = true"
-              style="">
-      油机管理系统-告警记录
-    </x-header>
-
     <div class="alarm-detail-div">
       <divider>总数:{{totalNum}}</divider>
       <group>

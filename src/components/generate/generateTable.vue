@@ -1,10 +1,5 @@
 <template>
-  <div>
-    <x-header class="generate-table-header" :right-options="{showMore: true}" :left-options="{showBack: true}"
-              @on-click-more="showMenus = true"
-              style="">
-      油机管理系统-发电记录
-    </x-header>
+  <div style="height: 100%;">
     <div class="generate-log-div">
       <divider>总数:{{totalNum}}</divider>
       <group>
@@ -24,14 +19,18 @@
         </div>
       </scroller>
     </div>
+    <search-icon @clickFloat="openSearchDiaglog"></search-icon>
   </div>
 </template>
 <script>
+  import SearchIcon from '../coms/FloatingSearchIcon'
+
   export default {
     name: "generateTable",
     data() {
       return {
         scrollTop: 0,
+        showSearchDialog: false,
         onFetching: false,
         allLoaded: false,
         generateLogData: [],
@@ -43,6 +42,9 @@
         pageSize: 20,
 
       }
+    },
+    components: {
+      SearchIcon,
     },
     mounted: function () {
       this.getGenerateLogData();
@@ -63,6 +65,9 @@
       }
     },
     methods: {
+      openSearchDiaglog: function () {
+        this.showSearchDialog = true;
+      },
       onScrollBottom: function () {
         if (this.onFetching) {
           // do nothing
@@ -104,11 +109,4 @@
 <style scoped>
 
 
-  .generate-table-header {
-    position: absolute;
-    width: 100%;
-    z-index: 100;
-    left: 0px;
-    top: 0px;
-  }
 </style>

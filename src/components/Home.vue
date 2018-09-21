@@ -1,9 +1,8 @@
 <template>
   <div style="height:100%;">
     <view-box ref="viewBox">
-      <div>
-        <router-view></router-view>
-      </div>
+      <c-header></c-header>
+      <router-view class="content-div"></router-view>
       <c-footer></c-footer>
     </view-box>
   </div>
@@ -32,5 +31,8 @@
 </script>
 
 <style scoped>
-
+  .content-div {
+    margin-top: 50px;
+    height: 100%;
+  }
 </style>

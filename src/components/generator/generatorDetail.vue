@@ -1,39 +1,25 @@
 <template>
   <div>
-    <x-header :right-options="{showMore: true}" :left-options="{showBack: true}" @on-click-more="showMenus = true"
-              style="">
-      油机管理系统-油机详情
-    </x-header>
+
 
     <div class="generator-detail-div">
-      <grid :cols="4" :show-lr-borders="false" class="status-grid" :show-vertical-dividers="false">
-        <grid-item class="status-grid-item">
-          <div>状态: {{generatorData.state1}}</div>
-        </grid-item>
-        <grid-item class="status-grid-item">
-          <div>类型:{{generatorData.fuelType}} {{generatorData.stationType}}</div>
-        </grid-item>
-        <grid-item class="status-grid-item">
-          <div>市电: {{generatorData.Acity_electricity}}</div>
-        </grid-item>
-        <grid-item class="status-grid-item">
-          <div>GPS: <i class="iconfont icon-signal " v-if="generatorData.st_state!='离线'"></i><i
-            class="iconfont icon-no-signal " v-else></i></div>
-        </grid-item>
-      </grid>
+      <div>
+        <span class="status-span">状态:{{generatorData.state1}}</span>
+        <span class="status-span">类型:{{generatorData.fuel_type}}{{generatorData.stationType}}</span>
+        <span class="status-span">市电:{{generatorData.Acity_electricity}}</span>
+        <span class="status-span">GPS:<i class="iconfont icon-signal " v-if="generatorData.st_state!='离线'"></i><i
+          class="iconfont icon-no-signal " v-else></i></span>
+      </div>
 
       <grid :cols="1" :show-lr-borders="false" :show-vertical-dividers="false">
         <grid-item>
-          <div style="width:150px;height:150px;margin: auto;padding-bottom: 10px">
+          <div style="width:120px;height:120px;margin: auto;">
             <x-circle :percent="generatorData.lank_per|keepHowManyNum(0)" :stroke-width="5">
               <span>{{generatorData.lank_level|keepHowManyNum(1)}} L({{generatorData.lank_per|keepHowManyNum(0)}}%)</span>
             </x-circle>
-            <div class="text-align-center temperature-div"><i class="iconfont icon-wendu3">{{generatorData.external_temperature|keepHowManyNum(1)}}°C</i>
-            </div>
           </div>
         </grid-item>
       </grid>
-
 
       <grid :cols="3" :show-lr-borders="false" :show-vertical-dividers="false">
         <grid-item>
@@ -45,6 +31,11 @@
           <divider><i class="iconfont icon-voltage"></i></divider>
           <div class="text-align-center detail-content">{{generatorData.al_voltage|keepHowManyNum(1)}}V</div>
           <div class="text-align-center">电池电压</div>
+        </grid-item>
+        <grid-item>
+          <divider><i class="iconfont icon-voltage"></i></divider>
+          <div class="text-align-center detail-content">{{generatorData.output_voltage|keepHowManyNum(1)}}V</div>
+          <div class="text-align-center">输出电压</div>
         </grid-item>
         <grid-item>
           <divider><i class="iconfont icon-dianliu2"></i></divider>
@@ -66,6 +57,13 @@
           <divider><i class="iconfont icon-eryanghuatan"></i></divider>
           <div class="text-align-center detail-content">{{generatorData.st_co|keepHowManyNum(2)}}ppm</div>
           <div class="text-align-center">CO排放量</div>
+        </grid-item>
+        <grid-item>
+          <divider><i class="iconfont icon-wendu3"></i></divider>
+          <div class="text-align-center detail-content">{{generatorData.external_temperature|keepHowManyNum(1)}}°C</div>
+          <div class="text-align-center">油机温度</div>
+        </grid-item>
+        <grid-item>
         </grid-item>
       </grid>
 
@@ -152,7 +150,7 @@
             this.connected = this.st_state !== "离线";
           }
         }).catch(function (error) {
-          console.log(error);
+          // console.log(error);
         });
       },
     }
@@ -165,20 +163,16 @@
     padding: 5px;
   }
 
-  .status-div span {
-    /*font-size: 18px;*/
-  }
-
-  .status-grid-item {
-    height: 50px;
-  }
-
   .detail-content {
     font-weight: bold;
   }
 
   .text-align-center {
     text-align: center;
+  }
+
+  .status-span {
+    margin-right: 15px;
   }
 
   .icon-signal {
@@ -189,7 +183,4 @@
     color: gray;
   }
 
-  .temperature-div {
-    /*margin-bottom: 5px;*/
-  }
 </style>

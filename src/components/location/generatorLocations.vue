@@ -1,19 +1,12 @@
 <template>
-  <div>
-    <x-header :right-options="{showMore: true}" :left-options="{showBack: true}" @on-click-more="showMenus = true"
-              style="">
-      油机管理系统-全站地图
-    </x-header>
-    <div id="map" :style="mapSize">
-      <div class="showboard">
-      </div>
+  <div id="map" :style="mapSize">
+    <div class="showboard">
     </div>
   </div>
 </template>
 
 <script>
   import AMap from 'AMap'
-  // import AMapUI from 'AMapUI'
 
   export default {
     name: 'generatorLocations',

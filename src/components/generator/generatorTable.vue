@@ -1,10 +1,5 @@
 <template>
   <div>
-    <x-header :right-options="{showMore: true}" :left-options="{showBack: true}" @on-click-more="showMenus = true"
-              style="">
-      油机管理系统-油机列表
-    </x-header>
-
     <div class="generator-table-div">
 
       <divider>总数:{{statisticInfo.totalGeneratorsNum}}</divider>
@@ -40,14 +35,14 @@
       </grid>
       <group>
         <div v-for="(item, index) in generatorData">
-          <cell @cell-value-color="green" @click.native="gotoGeneratorDetail(item.mach_no,item.mach_type)"
+          <cell @click.native="gotoGeneratorDetail(item.mach_no,item.mach_type)"
                 is-link="true"
-                :title="item.mach_name" :inline-desc="item.mach_no" class="group-data-cell">
+                :title="item.mach_name" :inline-desc="item.mach_no" class="group-data-cell" @cell-value-color="cellValColor">
 
-            <strong>{{item.st_state}}，{{item.state1}}</strong><br>
+            <strong>{{item.st_state}}，{{item.state1}}，{{item.load_mode|translateMode}}</strong><br>
 
-            {{item.st_current|translateCurrent|keepHowManyNum(1)}}A，
-            {{item.al_voltage|keepHowManyNum(1)}}V
+            输出 : {{item.st_current|translateCurrent|keepHowManyNum(1)}}A，
+            {{item.output_voltage|keepHowManyNum(1)}}V
           </cell>
         </div>
       </group>
@@ -71,6 +66,7 @@
         allLoaded: false,
         generatorData: [],
         customerNo: "",
+        cellValColor:"#27b151",
         onlineLabel: "",
         generatingLabel: "",
         statisticInfo: {
@@ -101,6 +97,9 @@
         } else {
           return value;
         }
+      },
+      translateMode:function(val){
+        return !val?"空载":"带载";
       },
     },
     methods: {

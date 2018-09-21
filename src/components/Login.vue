@@ -41,8 +41,7 @@
           username: this.username,
           password: this.password
         }, {emulateJSON: true}).then(res => {
-          console.log(res);
-          if (res.body.result && res.body.userlevel >= 0) {
+          if (res.body.result) {
             let user = res.body.username;
             localStorage.setItem('user', user);
             // localStorage.setItem('password', this.password);
@@ -53,6 +52,7 @@
           } else {
             this.$vux.toast.show({
               text: '登录密码或用户名错误',
+              type: "cancel",
               time: 3000,
             })
           }
@@ -73,7 +73,7 @@
   }
 
   .login-title-div {
-    height: 300px;
+    height: 20%;
     width: 100%;
   }
 

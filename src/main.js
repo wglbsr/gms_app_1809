@@ -8,7 +8,7 @@ import VueResource from 'vue-resource'
 import {
   Actionsheet, XInput, XButton, Grid, GridItem, XTable, LoadMore, Icon, XCircle, Group,
   XImg, Alert, Toast, XDialog, ButtonTab, Tabbar, TabbarItem, Divider, Confirm, Cell,
-  ButtonTabItem, XHeader, ViewBox, Loading, LoadingPlugin, ToastPlugin, Scroller
+  ButtonTabItem, XHeader, ViewBox, Loading, LoadingPlugin, ToastPlugin, Scroller,Datetime
 } from 'vux'
 
 Vue.component('view-box', ViewBox);
@@ -37,6 +37,8 @@ Vue.component('icon', Icon);
 Vue.component('x-circle', XCircle);
 Vue.component('cell', Cell);
 Vue.component('group', Group);
+Vue.component('datetime', Datetime);
+
 
 import Home from './components/Home'
 import API_DYNY from "./DYNY_GMS_API.vue"
@@ -51,6 +53,7 @@ const Content = r => require.ensure([], () => r(require('./components/coms/Conte
 const generateTable = r => require.ensure([], () => r(require('./components/generate/generateTable.vue')), 'generateTable');
 const alarmTable = r => require.ensure([], () => r(require('./components/alarm/alarmTable.vue')), 'alarmTable');
 const generatorLocations = r => require.ensure([], () => r(require('./components/location/generatorLocations.vue')), 'generatorLocations');
+const myInfo = r => require.ensure([], () => r(require('./components/myself/myInfo.vue')), 'myInfo');
 
 /*****!!!!!!******打包需要改为 false*********!!!!********/
 let dev_mode = false;
@@ -86,32 +89,60 @@ const routes = [
   {
     path: '/',
     component: Home,
+    meta: {
+      title: '油机管理系统'
+    },
     children: [
       {
         path: '/generatorTable',
         name: 'generatorTable',
-        component: generatorTable
+        component: generatorTable,
+        meta: {
+          title: '油机列表'
+        }
       },
       {
         path: '/generatorDetail',
         name: 'generatorDetail',
-        component: generatorDetail
+        component: generatorDetail,
+        meta: {
+          title: '油机详情'
+        }
       }, {
         path: '/Content',
         name: 'Content',
-        component: Content
+        component: Content,
+        meta: {
+          title: '首页'
+        }
       }, {
         path: '/generateTable',
         name: 'generateTable',
-        component: generateTable
+        component: generateTable,
+        meta: {
+          title: '发电记录'
+        }
       }, {
         path: '/alarmTable',
         name: 'alarmTable',
-        component: alarmTable
+        component: alarmTable,
+        meta: {
+          title: '告警记录'
+        }
       }, {
         path: '/generatorLocations',
         name: 'generatorLocations',
-        component: generatorLocations
+        component: generatorLocations,
+        meta: {
+          title: '全站地图'
+        }
+      }, {
+        path: '/myInfo',
+        name: 'myInfo',
+        component: myInfo,
+        meta: {
+          title: '个人信息'
+        }
       },
       //generatorLocations
     ],
@@ -127,22 +158,36 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+router.beforeEach((to, from, next) => {
+  //to即将进入的目标路由对象，from当前导航正要离开的路由， next : 下一步执行的函数钩子
+  if (to.path === '/Login') {
+    next()
+  } // 如果即将进入登录路由，则直接放行
+  else {   //进入的不是登录路由
+    if (!sessionStorage.getItem('user')) {
+      next({path: '/Login'})
+    }
+    //下一跳路由需要登录验证，并且还未登录，则路由定向到 登录路由
+    else {
+      next()
+    }
+  }
+  //如果不需要登录验证，或者已经登录成功，则直接放行
+});
 
+/**
+ * 拦截器
+ */
+Vue.http.interceptors.push((request, next) => {
+  // let username = sessionStorage.getItem("user");
+  // if (!username) {
+  //   router.push("/Login");
+  // }
+  next((response) => {
+    return response;
 
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(m => m.meta.auth)) {
-//     if (sessionStorage.getItem("user") !== null) {
-//       next()
-//     } else {
-//       window.alert("请先登录!");
-//       next(vm => {
-//         vm.$router.push("/login");
-//       })
-//     }
-//   } else {
-//     next()
-//   }
-// });
+  });
+});
 
 FastClick.attach(document.body)
 
