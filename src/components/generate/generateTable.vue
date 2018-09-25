@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%;">
     <div class="generate-log-div">
-      <divider>总数:{{totalNum}}</divider>
+      <divider>总数:{{totalNum}},当前:{{this.generateLogData.length}}</divider>
       <group>
         <div v-for="(item, index) in generateLogData">
           <cell :title="item.mach_name" :inline-desc="'发电时长:'+item.num_time+'min'" class="group-data-cell">
@@ -19,7 +19,7 @@
         </div>
       </scroller>
     </div>
-    <search-icon @clickFloat="openSearchDiaglog"></search-icon>
+    <search-icon @doSearch="doSearch"></search-icon>
   </div>
 </template>
 <script>
@@ -30,16 +30,17 @@
     data() {
       return {
         scrollTop: 0,
-        showSearchDialog: false,
         onFetching: false,
         allLoaded: false,
         generateLogData: [],
-        customerNo: "",
+        totalPageNum: 0,
+        customerNo: sessionStorage.getItem("usercus"),
         onlineLabel: "",
         totalNum: 0,
         pageNum: 1,
         generatorNoOrName: "",
         pageSize: 20,
+        condition: {},
 
       }
     },
@@ -65,8 +66,14 @@
       }
     },
     methods: {
-      openSearchDiaglog: function () {
-        this.showSearchDialog = true;
+      doSearch: function (params) {
+        this.condition = params;
+        if (params.keyWord) {
+          this.condition.mach_no = params.keyWord;
+        } else {
+          delete this.condition.mach_no;
+        }
+        this.getGenerateLogData(true);
       },
       onScrollBottom: function () {
         if (this.onFetching) {
@@ -79,23 +86,26 @@
           });
         }
       },
-      getGenerateLogData() {
-        if (this.allLoaded) {
-          this.$vux.toast.show({
-            text: '已全部加载!'
-          });
-          return;
-        }
+      getGenerateLogData(refresh) {
         if (this.onFetching) {
           return;
         }
-        this.onFetching = true;
         let params = {user_cus: this.customerNo, pageSize: this.pageSize, pageNum: this.pageNum};
+        if (this.condition) {
+          params = Object.assign(params, this.condition);
+        }
+        this.onFetching = true;
         this.$http.post(this.API_DYNY.GMS.getGenerateLog, params, {emulateJSON: true}).then(res => {
-          this.generateLogData = this.generateLogData.concat(res.body.data);
           this.totalNum = res.body.total_num;
-          if (this.generateLogData.length == this.totalNum) {
-            this.allLoaded = true;
+          if (!refresh) {
+            this.generateLogData = this.generateLogData.concat(res.body.data);
+          } else {
+            this.generateLogData = res.body.data;
+          }
+          if(this.pageNum>=res.body.total_page_num){
+            this.$vux.toast.show({
+              text: '已全部加载!'
+            });
           }
           this.onFetching = false;
         }).catch(function (error) {

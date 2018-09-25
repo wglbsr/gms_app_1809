@@ -65,7 +65,7 @@
         onFetching: false,
         allLoaded: false,
         generatorData: [],
-        customerNo: "",
+        customerNo: sessionStorage.getItem("usercus"),
         cellValColor:"#27b151",
         onlineLabel: "",
         generatingLabel: "",
@@ -149,7 +149,7 @@
         }
         this.onFetching = true;
         this.$http.post(this.API_DYNY.GMS.searchMachine, {
-            user_cus: '',
+            user_cus: sessionStorage.getItem("usercus"),
             pageNum: this.pageNum,
             pageSize: this.pageSize,
           }, {emulateJSON: true}

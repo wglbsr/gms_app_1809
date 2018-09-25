@@ -1,7 +1,7 @@
 <template>
   <div>
-    <datetime v-model="startTime" format="YYYY-MM-DD" @on-change="change" title="开始时间"></datetime>
-    <datetime v-model="endTime" format="YYYY-MM-DD" @on-change="change" title="结束时间"></datetime>
+    <datetime v-model="startDate" format="YYYY-MM-DD" @on-change="change" title="开始时间:"></datetime>
+    <datetime v-model="endDate" format="YYYY-MM-DD" @on-change="change" title="结束时间:"></datetime>
   </div>
 </template>
 
@@ -10,14 +10,20 @@
     name: "BetweenDatesPicker",
     data() {
       return {
-        startTime: "2018-08-01",
-        endTime: "2018-10-01",
+        startDate: "",
+        endDate: ""
       }
     },
     methods: {
       change: function () {
-        console.log("awdawdawd");
-        this.$emit("dateChange", {startTime: this.startTime, endTime: this.endTime});
+        let args = {};
+        if (this.startDate) {
+          args.startDate = (Date.parse(new Date(this.startDate + " 00:00:00"))) / 1000;
+        }
+        if (this.endDate) {
+          args.endDate = (Date.parse(new Date(this.endDate + " 23:59:59"))) / 1000;
+        }
+        this.$emit("dateChange", args);
       },
     }
   }

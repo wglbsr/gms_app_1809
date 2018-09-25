@@ -19,8 +19,6 @@
       <x-button @click.native="login" type="primary">登录</x-button>
     </group>
   </div>
-
-
 </template>
 
 <script>
@@ -28,7 +26,8 @@
     name: "Login",
     data() {
       return {
-        username: ""
+        username: "",
+        password: "",
       }
     },
     mounted: function () {
@@ -36,7 +35,14 @@
     },
     methods: {
       login: function () {
-        let user = "";
+        if (!this.password || !this.username) {
+          this.$vux.toast.show({
+            text: '请输入正确的账号密码',
+            type: "cancel",
+            time: 3000,
+          });
+          return;
+        }
         this.$http.post(this.API_DYNY.GMS_DOMAIN + "ems/users/login.do", {
           username: this.username,
           password: this.password

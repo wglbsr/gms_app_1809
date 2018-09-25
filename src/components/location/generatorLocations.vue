@@ -19,7 +19,7 @@
         },
         a: 6378245.0,
         ee: 0.00669342162296594323,
-        customerNo: "",//sessionStorage.getItem("usercus"),
+        customerNo: sessionStorage.getItem("usercus"),
       }
     },
     created() {

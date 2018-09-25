@@ -2,11 +2,9 @@
   <div style="height: 100%;">
     <div>
       <div class="user-pic-div">
-
-
       </div>
       <group>
-        <cell is-link="true" title="修改密码">
+        <cell is-link="true" title="修改密码" :link="{path:'/changePassword'}">
         </cell>
         <cell is-link="true" title="我的信息">
         </cell>

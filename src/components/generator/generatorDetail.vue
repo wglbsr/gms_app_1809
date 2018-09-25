@@ -111,7 +111,6 @@
     methods: {
       startGenerator: function () {
         this.showDevelopingTip();
-
       },
       setRefreshDataTimer: function () {
         let that = this;
@@ -127,7 +126,6 @@
       },
       stopGenerator: function () {
         this.showDevelopingTip();
-
       },
       switchMode: function () {
         this.showDevelopingTip();

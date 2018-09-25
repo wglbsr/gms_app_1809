@@ -6,9 +6,9 @@ import VueRouter from 'vue-router'
 import App from './App'
 import VueResource from 'vue-resource'
 import {
-  Actionsheet, XInput, XButton, Grid, GridItem, XTable, LoadMore, Icon, XCircle, Group,
-  XImg, Alert, Toast, XDialog, ButtonTab, Tabbar, TabbarItem, Divider, Confirm, Cell,
-  ButtonTabItem, XHeader, ViewBox, Loading, LoadingPlugin, ToastPlugin, Scroller,Datetime
+  Actionsheet, XInput, XButton, Grid, GridItem, XTable, LoadMore, Icon, XCircle, Group, PopupRadio,
+  XImg, Alert, Toast, XDialog, ButtonTab, Tabbar, TabbarItem, Divider, Confirm, Cell, Picker, PopupPicker,
+  ButtonTabItem, XHeader, ViewBox, Loading, LoadingPlugin, ToastPlugin, Scroller, Datetime
 } from 'vux'
 
 Vue.component('view-box', ViewBox);
@@ -38,7 +38,10 @@ Vue.component('x-circle', XCircle);
 Vue.component('cell', Cell);
 Vue.component('group', Group);
 Vue.component('datetime', Datetime);
-
+Vue.component('picker', Picker);
+Vue.component('popup-radio', PopupRadio);
+Vue.component('popup-picker', PopupPicker);
+//popup-picker
 
 import Home from './components/Home'
 import API_DYNY from "./DYNY_GMS_API.vue"
@@ -54,6 +57,7 @@ const generateTable = r => require.ensure([], () => r(require('./components/gene
 const alarmTable = r => require.ensure([], () => r(require('./components/alarm/alarmTable.vue')), 'alarmTable');
 const generatorLocations = r => require.ensure([], () => r(require('./components/location/generatorLocations.vue')), 'generatorLocations');
 const myInfo = r => require.ensure([], () => r(require('./components/myself/myInfo.vue')), 'myInfo');
+const changePassword = r => require.ensure([], () => r(require('./components/myself/changePassword.vue')), 'changePassword');
 
 /*****!!!!!!******打包需要改为 false*********!!!!********/
 let dev_mode = false;
@@ -143,7 +147,15 @@ const routes = [
         meta: {
           title: '个人信息'
         }
+      }, {
+        path: '/changePassword',
+        name: 'changePassword',
+        component: changePassword,
+        meta: {
+          title: '修改密码'
+        }
       },
+
       //generatorLocations
     ],
   },
